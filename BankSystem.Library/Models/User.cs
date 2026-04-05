@@ -12,12 +12,8 @@ public class User
 
 
     }
-    public void Transaction(int money, User other)
-    {
-        this.Money = new Money(Money.Balance - money);
-        other.Money = new Money(other.Money.Balance + money);
-    }
-    public string ShowCurrent() => $"Balance {Money.Balance} --{Money.currency}";
+    public string ShowCardName()=>$"CardName :{CardName}";
+    public string ShowCurrent() => $"Balance :{Money.Balance} --{Money.currency}";
     public void ChangeName(string newUsername) => UserName = newUsername;
     public void ChangePassword(string NewPassword) => Password = NewPassword;
     public void AddMoney(string sum) => this.Money = new Money(int.Parse(sum) + Money.Balance);

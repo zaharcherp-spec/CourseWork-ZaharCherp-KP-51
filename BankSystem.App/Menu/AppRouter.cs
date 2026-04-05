@@ -1,3 +1,5 @@
+using BankSystem.Library;
+
 public class AppRouter
 {
     //Цей клас відповідає за вибір типу користувача програми та надання йому відповідних можливостей можливостей .Також в цьому класі
@@ -40,17 +42,34 @@ public class AppRouter
     {
         var dict = new Dictionary<string, (string Name, Action action)>();
 
+        User user = GetUserAuthentification();
+        UserManager userManager = new UserManager(user);
+
         dict.Add("0", ("Exit from your account", () => _currentMenu = CreateWelcomeMenu()));
+        dict.Add("1", ("Top up", () => userManager.TopUp()));
+        dict.Add("2", ("Transfer", () => userManager.Transfer()));
 
         return new ShowMenu(dict);
     }
 
     private ShowMenu CreateAdminMenu()
     {
+        bool a = GetAdminStatus();
+        
         var dict = new Dictionary<string, (string Name, Action action)>();
         dict.Add("0", ("Exit from Adminisrator Status", () => _currentMenu = CreateWelcomeMenu()));
 
         return new ShowMenu(dict);
+    }
+
+    private User GetUserAuthentification()
+    {
+        return authService.GetUser();
+    }
+
+    private bool GetAdminStatus()
+    {
+        return authService.GetPrivateStatus();
     }
 }
 

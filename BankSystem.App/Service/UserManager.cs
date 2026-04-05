@@ -7,5 +7,15 @@ public class UserManager
     {
         currentUser = user;
     }
-    
+
+    public void TopUp()
+    {
+        
+    }
+
+    public void Transfer()
+    {
+        
+    }
 }
+    

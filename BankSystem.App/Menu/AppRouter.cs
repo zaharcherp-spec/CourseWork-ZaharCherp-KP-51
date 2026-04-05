@@ -3,16 +3,16 @@ public class AppRouter
     //Цей клас відповідає за вибір типу користувача програми та надання йому відповідних можливостей можливостей .Також в цьому класі
     // і знаходиться відповідні списки опцій ,які будуть представлені в менеджерахі.Цей клас може спілкуватись з корисутвачем через консоль.
     private ShowMenu _currentMenu;
-
-    public AppRouter()
+    private readonly AuthService authService;
+    public AppRouter(AuthService authService)
     {
         _currentMenu = CreateWelcomeMenu();
+        this.authService = authService;
     }
     public void Run()
     {
         while (true)
         {
-            Console.Clear();
             _currentMenu.ShowAndExecute();
         }
     }
@@ -46,6 +46,9 @@ public class AppRouter
         return new ShowMenu(dict);
     }
 }
+        
+
+
 
 
 

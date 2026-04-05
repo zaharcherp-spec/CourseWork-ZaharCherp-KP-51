@@ -13,7 +13,14 @@ public class AppRouter
     {
         while (true)
         {
-            _currentMenu.ShowAndExecute();
+            try
+            {
+                _currentMenu.ShowAndExecute();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 
@@ -46,7 +53,7 @@ public class AppRouter
         return new ShowMenu(dict);
     }
 }
-        
+
 
 
 

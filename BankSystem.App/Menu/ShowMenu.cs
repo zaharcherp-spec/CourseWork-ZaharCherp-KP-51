@@ -1,9 +1,9 @@
-public class BaseMenu
+public class ShowMenu
 {
     // Цей клас відповідає за показування для користувача та виклику відповідних методів ,незалажно від користувача адміна чи юзера
 
     private Dictionary<string, (string Name, Action action)> Actions = new();
-    public BaseMenu(Dictionary<string, (string Name, Action)> commands)
+    public ShowMenu(Dictionary<string, (string Name, Action)> commands)
     {
         Actions = commands;
     }

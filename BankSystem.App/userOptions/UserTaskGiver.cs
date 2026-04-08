@@ -1,4 +1,4 @@
-using BankSystem.Library;
+
 
 public class UserTaskGiver : ITaskGiver
 {
@@ -14,12 +14,15 @@ public class UserTaskGiver : ITaskGiver
     {
         var Dictionary = new Dictionary<string, (string, Action)>();
 
-        Dictionary.Add("1", ("Show Balance", () => Console.WriteLine("Balance: 0")));
+        Dictionary.Add("1", ("Show Balance", () => Console.WriteLine(Manager.GetBalance())));
+
         Dictionary.Add("0", ("Back to Main Menu", () => _changer(new GreeterGiver(_changer))));
 
         return Dictionary;
     }
 }
+
+
 
 
 

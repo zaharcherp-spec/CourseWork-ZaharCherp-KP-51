@@ -12,4 +12,10 @@ public class UserManager
     {
         return Current.ShowCurrentBalance();
     }
+
+    public bool ChangeName(string newName)
+    {
+        Current.ChangeName(newName);
+        return true;
+    }
 }

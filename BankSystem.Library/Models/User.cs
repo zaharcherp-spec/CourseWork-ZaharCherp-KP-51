@@ -10,7 +10,6 @@ public class User
     public User()
     {
 
-
     }
     public string ShowCardName()=>$"CardName :{CardName}";
     public string ShowCurrent() => $"Balance :{Money.Balance} --{Money.currency}";
@@ -18,6 +17,7 @@ public class User
     public void ChangePassword(string NewPassword) => Password = NewPassword;
     public void AddMoney(string sum) => this.Money = new Money(int.Parse(sum) + Money.Balance);
 }
+
 
 
 

@@ -1,10 +1,13 @@
+using BankSystem.Library;
+
 public class UserTaskGiver : ITaskGiver
 {
     private readonly Action<ITaskGiver> _changer;
-
-    public UserTaskGiver(Action<ITaskGiver> changer)
+    private readonly UserManager Manager;
+    public UserTaskGiver(Action<ITaskGiver> changer, UserManager manager)
     {
         _changer = changer;
+        Manager = manager;
     }
 
     public Dictionary<string, (string, Action)> GetCommands()
@@ -17,4 +20,6 @@ public class UserTaskGiver : ITaskGiver
         return Dictionary;
     }
 }
+
+
 

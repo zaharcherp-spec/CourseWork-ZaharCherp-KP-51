@@ -1,6 +1,6 @@
-using FinanceTracker.Library.enums;
+using FinanceTracker.Library.Enums;
 
-namespace FinanceTracker.Library.models;
+namespace FinanceTracker.Library.Models;
 
 public struct Money
 {

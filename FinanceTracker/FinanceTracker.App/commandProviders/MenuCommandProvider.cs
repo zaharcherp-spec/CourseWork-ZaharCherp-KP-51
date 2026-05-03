@@ -1,12 +1,12 @@
-using FinanceTracker.Library.models;
+using FinanceTracker.Library.Models;
 using FinanceTracker.App.interfaces;
 
-namespace FinanceTracker.App.commandProviders;
+namespace FinanceTracker.App.CommandProviders;
 
 public class MenuCommandProvider : ICommandProvider
 {
     private readonly Action<ICommandProvider> _changer;
-
+    
     public MenuCommandProvider() { }
 
     public MenuCommandProvider(Action<ICommandProvider> changer)
@@ -17,19 +17,18 @@ public class MenuCommandProvider : ICommandProvider
     public Dictionary<string, (string, Action)> GetCommands()
     {
         var Dictionary = new Dictionary<string, (string, Action)>();
-
-        Dictionary.Add("1", ("Enter your user Account", (() =>
         {
-            User user = new User();
-            UserManager userManager = new UserManager(user);
-            _changer(new UserCommandProvider(_changer, userManager));
-        })));
+            Dictionary.Add("0", ("Exit", () => Environment.Exit(0)));
 
-        Dictionary.Add("0", ("Exit", () => Environment.Exit(0)));
-
-        return Dictionary;
+            return Dictionary;
+        }
     }
 }
+
+
+
+
+
 
 
 

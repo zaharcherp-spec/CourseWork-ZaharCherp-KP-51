@@ -1,20 +1,19 @@
-using FinanceTracker.App.commandProviders;
+using FinanceTracker.App.CommandProviders;
 using FinanceTracker.App.interfaces;
-using FinanceTracker.App.assets;
 
-namespace FinanceTracker.App.runner;
+
+namespace FinanceTracker.App.Core;
 
 public class AppStarter
 {
-    private ShowMenu _currentMenu => GetMenu();
     private ICommandProvider Provider;
 
     public AppStarter()
     {
-        ChangeGiver(new MenuCommandProvider());
+        MenuChanger(new MenuCommandProvider());
     }
 
-    public void ChangeGiver(ICommandProvider NewProvider)
+    private void MenuChanger(ICommandProvider NewProvider)
     {
         Provider = NewProvider;
     }
@@ -25,7 +24,7 @@ public class AppStarter
         {
             try
             {
-                _currentMenu.ShowAndExecute();
+                ShowMenu.ShowAndExecute(Provider.GetCommands());
             }
             catch (Exception e)
             {
@@ -33,13 +32,11 @@ public class AppStarter
             }
         }
     }
-
-    private ShowMenu GetMenu()
-    {
-        ShowMenu Menu = new ShowMenu(Provider.GetCommands());
-        return Menu;
-    }
 }
+
+
+
+
 
 
 

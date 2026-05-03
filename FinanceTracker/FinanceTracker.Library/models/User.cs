@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-namespace FinanceTracker.Library.models;
+namespace FinanceTracker.Library.Models;
 
 public class User
 {
@@ -29,6 +29,8 @@ public class User
         Wallet = new Money(0);
         Transactions = new List<Transaction>();
     }
+
+    public User() { }
 
     public void UpdateName(string newName) => UserName = newName;
     public void ChangePassword(string newPassword) => Password = newPassword;

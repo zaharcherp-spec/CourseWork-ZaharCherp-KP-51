@@ -1,15 +1,10 @@
-namespace FinanceTracker.App.assets;
+namespace FinanceTracker.App.CommandProviders;
 
-public class ShowMenu
+public static class ShowMenu
 {
     // Цей клас відповідає за показування для користувача та виклику відповідних методів ,незалажно від користувача адміна чи юзера
 
-    private Dictionary<string, (string Name, Action action)> Actions = new();
-    public ShowMenu(Dictionary<string, (string Name, Action)> commands)
-    {
-        Actions = commands;
-    }
-    public void ShowAndExecute()
+    public static void ShowAndExecute(Dictionary<string, (string Name, Action)> Actions)
     {
         foreach (var r in Actions)
         {
@@ -17,11 +12,11 @@ public class ShowMenu
         }
         string? choice = Console.ReadLine();
 
-        bool a = Actions.TryGetValue(choice, out var choosen);
+        bool a = Actions.TryGetValue(choice??" ", out var choosen);
 
         if (a)
         {
-            choosen.action.Invoke();
+            choosen.Item2.Invoke();
         }
         else
         {
@@ -29,6 +24,8 @@ public class ShowMenu
         }
     }
 }
+
+
 
 
 

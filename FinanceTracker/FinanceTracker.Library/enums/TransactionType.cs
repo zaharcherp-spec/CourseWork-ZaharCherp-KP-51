@@ -1,4 +1,4 @@
-namespace FinanceTracker.Library.enums;
+namespace FinanceTracker.Library.Enums;
 
 public enum TransactionType
 {

@@ -1,25 +1,38 @@
-﻿namespace BankSystem.Library;
+﻿using System.Text.Json.Serialization;
+namespace FinanceTracker.Library.models;
 
 public class User
 {
-    private Money Money { get; set; }
-    private string Password { get; set; }
-    public List<Transaction> Transactions { get; set; }
-    private string UserName { get; set; }
-    public Guid Id { get; }
+    public Guid Id { get; private set; }
+    public string UserName { get; private set; }
+    public string Password { get; private set; }
+    public Money Wallet { get; private set; }
+    public List<Transaction> Transactions { get; private set; }
 
-    public User()
+    // Атрибут вказує JSON-десеріалізатору використовувати цей конструктор
+    [JsonConstructor]
+    public User(Guid id, string userName, string password, Money wallet, List<Transaction> transactions)
     {
-
+        Id = id;
+        UserName = userName;
+        Password = password;
+        Wallet = wallet;
+        Transactions = transactions ?? new List<Transaction>();
     }
-    public string ShowCurrentBalance() => $"Balance : {Money.Balance} --{Money.currency}";
-    public void ChangeName(string newUsername) => UserName = newUsername;
-    public void ChangePassword(string NewPassword) => Password = NewPassword;
+
+    // Конструктор для створення нового юзера вручну
+    public User(string userName, string password)
+    {
+        Id = Guid.NewGuid();
+        UserName = userName;
+        Password = password;
+        Wallet = new Money(0);
+        Transactions = new List<Transaction>();
+    }
+
+    public void UpdateName(string newName) => UserName = newName;
+    public void ChangePassword(string newPassword) => Password = newPassword;
 }
-
-
-
-
 
 
 

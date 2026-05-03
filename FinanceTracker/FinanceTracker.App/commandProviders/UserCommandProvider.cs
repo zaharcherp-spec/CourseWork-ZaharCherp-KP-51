@@ -1,3 +1,8 @@
+using FinanceTracker.App.interfaces;
+
+namespace FinanceTracker.App.commandProviders;
+
+
 public class UserCommandProvider : ICommandProvider
 {
     private readonly Action<ICommandProvider> _changer;
@@ -16,7 +21,7 @@ public class UserCommandProvider : ICommandProvider
 
         Dictionary.Add("0", ("Back to Main Menu", () => _changer(new MenuCommandProvider(_changer))));
 
-        
+
 
         return Dictionary;
     }

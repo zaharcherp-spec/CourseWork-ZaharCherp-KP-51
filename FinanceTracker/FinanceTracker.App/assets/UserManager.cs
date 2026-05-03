@@ -1,4 +1,4 @@
-using BankSystem.Library;
+using FinanceTracker.Library.models;
 
 public class UserManager
 {

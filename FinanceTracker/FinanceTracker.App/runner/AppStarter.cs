@@ -1,3 +1,9 @@
+using FinanceTracker.App.commandProviders;
+using FinanceTracker.App.interfaces;
+using FinanceTracker.App.assets;
+
+namespace FinanceTracker.App.runner;
+
 public class AppStarter
 {
     private ShowMenu _currentMenu => GetMenu();

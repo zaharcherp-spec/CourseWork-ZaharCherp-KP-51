@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/FinanceTracker.Tests/">
+    <Project Path="FinanceTracker.Tests/FinanceTracker.Tests..csproj" />
+  </Folder>
+  <Project Path="FinanceTracker.App/FinanceTracker.App.csproj" />
+  <Project Path="FinanceTracker.Library/FinanceTracker.Library.csproj" />
+</Solution>

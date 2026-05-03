@@ -10,6 +10,7 @@ public static class ShowMenu
         {
             Console.WriteLine($"{r.Key}--{r.Value.Name}");
         }
+        
         string? choice = Console.ReadLine();
 
         bool a = Actions.TryGetValue(choice??" ", out var choosen);

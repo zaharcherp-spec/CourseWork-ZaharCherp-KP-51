@@ -7,26 +7,13 @@ namespace FinanceTracker.App.Core;
 
 class Program
 {
+
     static async Task Main()
     {
-        var settingsRepo = new JsonRepository<Settings>("settings.json");
-        var loadedSettings = await settingsRepo.LoadAsync();
-
-        Settings appSettings;
-
-        if (loadedSettings.Count == 0)
-        {
-            appSettings = new Settings(
-                new Constrains.AuthConstraints(),
-                new Constrains.TransferConstraints(),
-                "users_data.json"
-            );
-            await settingsRepo.SaveAsync(new List<Settings> { appSettings });
-        }
-        else
-        {
-            appSettings = loadedSettings[0];
-        }
+        string fileLoadPath = Path.Combine("..", "FinanceTracker.Library", "Data", "users_data.json");
+        var authConstraints = new Constrains.AuthConstraints();
+        var transferConstrains = new Constrains.TransferConstraints();
+        var appSettings = new Settings(authConstraints, transferConstrains, fileLoadPath);
 
         var jsonRepository = new JsonRepository<User>(appSettings.FileLoadPath);
 
@@ -34,9 +21,12 @@ class Program
         await authManager.InitAsync();
 
         AppStarter appStarter = new AppStarter(authManager);
+
         appStarter.Run();
     }
 }
+
+
 
 
 

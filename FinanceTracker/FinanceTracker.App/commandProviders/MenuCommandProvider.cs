@@ -61,7 +61,7 @@ public class MenuCommandProvider : ICommandProvider
         }
 
         else
-            Console.WriteLine("Помилка: Такий користувач вже існує.");
+            Console.WriteLine("Помилка спробуйте ввести інший пароль , або логін");
     }
 }
 

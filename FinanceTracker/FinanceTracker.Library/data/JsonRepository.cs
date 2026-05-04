@@ -31,6 +31,11 @@ public class JsonRepository<T>
 
     public async Task SaveAsync(List<T> items)
     {
+        string? directory = Path.GetDirectoryName(_filePath);
+
+        
+        if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
+
         string json = JsonSerializer.Serialize(items, _options);
         await File.WriteAllTextAsync(_filePath, json);
     }

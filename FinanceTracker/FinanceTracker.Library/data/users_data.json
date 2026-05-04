@@ -1,0 +1,12 @@
+[
+  {
+    "Id": "a94a533d-e5ce-42b4-848f-ddc235e36b06",
+    "UserName": "zahar",
+    "Password": "Apolon11",
+    "Wallet": {
+      "Balance": 0,
+      "currency": 0
+    },
+    "Transactions": []
+  }
+]

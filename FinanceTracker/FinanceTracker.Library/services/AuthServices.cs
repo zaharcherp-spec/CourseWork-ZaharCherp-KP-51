@@ -30,7 +30,10 @@ public class AuthManager
             return false;
         }
 
-        if (_users.Any(t => t.UserName == username)) return false;
+        if (_users.Any(t => t.UserName == username))
+        {
+            throw new ArgumentException("Such User already exists");
+        }
 
         var newUser = new User(username, password);
         _users.Add(newUser);

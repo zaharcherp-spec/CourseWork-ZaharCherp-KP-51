@@ -1,0 +1,11 @@
+{
+    "Auth": {
+        "MinPasswordLength": 4,
+        "MinUsernameLength": 3
+    },
+    "Transfer": {
+        "MaxTransferAmount": 80000,
+        "MinTransferAmount": 5
+    },
+    "FileLoadPath": "users_data.json"
+}

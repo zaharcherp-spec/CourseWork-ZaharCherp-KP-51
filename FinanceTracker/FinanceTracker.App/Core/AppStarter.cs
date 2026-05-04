@@ -1,7 +1,5 @@
 using FinanceTracker.App.CommandProviders;
 using FinanceTracker.App.interfaces;
-using FinanceTracker.Library.Data;
-using FinanceTracker.Library.Models;
 using FinanceTracker.Library.Services;
 
 namespace FinanceTracker.App.Core;
@@ -11,15 +9,9 @@ public class AppStarter
     private ICommandProvider Provider;
     private AuthManager AuthManager;
 
-    public AppStarter()
+    public AppStarter(AuthManager authManager)
     {
-        
-        var repository = new JsonRepository<User>("users_data");
-
-        AuthManager = new AuthManager(repository);
-        AuthManager.InitAsync().Wait();
-
-        
+        AuthManager = authManager;
         Provider = new MenuCommandProvider(MenuChanger, AuthManager);
     }
 
@@ -43,6 +35,9 @@ public class AppStarter
         }
     }
 }
+
+
+
 
 
 

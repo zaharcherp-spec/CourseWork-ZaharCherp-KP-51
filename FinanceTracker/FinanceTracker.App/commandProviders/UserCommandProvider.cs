@@ -6,12 +6,12 @@ namespace FinanceTracker.App.CommandProviders;
 public class UserCommandProvider : ICommandProvider
 {
     private readonly Action<ICommandProvider> _changer;
-    private readonly AuthManager _manager;
+    private readonly AuthManager _authmanager;
 
     public UserCommandProvider(Action<ICommandProvider> changer, AuthManager manager)
     {
         _changer = changer;
-        _manager = manager;
+        _authmanager = manager;
     }
 
     public Dictionary<string, (string, Action)> GetCommands()
@@ -20,10 +20,12 @@ public class UserCommandProvider : ICommandProvider
         {
             { "0", ("В головне меню (вихід з акаунту)", () =>
                 {
-                    _manager.Logout();
-                    _changer(new MenuCommandProvider(_changer, _manager));
+                    _authmanager.Logout();
+                    _changer(new MenuCommandProvider(_changer, _authmanager));
                 })
             }
+
+            
         };
         return dictionary;
     }

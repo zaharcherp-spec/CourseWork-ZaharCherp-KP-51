@@ -9,7 +9,7 @@ public class User
     public Money Wallet { get; private set; }
     public List<Transaction> Transactions { get; private set; }
 
-    // Атрибут вказує JSON-десеріалізатору використовувати цей конструктор
+  
     [JsonConstructor]
     public User(Guid id, string userName, string password, Money wallet, List<Transaction> transactions)
     {
@@ -20,7 +20,7 @@ public class User
         Transactions = transactions ?? new List<Transaction>();
     }
 
-    // Конструктор для створення нового юзера вручну
+   
     public User(string userName, string password)
     {
         Id = Guid.NewGuid();

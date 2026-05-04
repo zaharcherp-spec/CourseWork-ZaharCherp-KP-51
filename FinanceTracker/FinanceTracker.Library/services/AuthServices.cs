@@ -1,19 +1,21 @@
 using FinanceTracker.Library.Data;
 using FinanceTracker.Library.Models;
+using FinanceTracker.Library.Settings;
 
 namespace FinanceTracker.Library.Services;
 
 public class AuthManager
 {
     private readonly JsonRepository<User> _repository;
+    private readonly Constrains.AuthConstraints _constraints;
     private List<User> _users = new();
-
 
     public User? CurrentUser { get; private set; }
 
-    public AuthManager(JsonRepository<User> repository)
+    public AuthManager(JsonRepository<User> repository, Constrains.AuthConstraints constraints)
     {
         _repository = repository;
+        _constraints = constraints;
     }
 
     public async Task InitAsync()
@@ -23,7 +25,12 @@ public class AuthManager
 
     public async Task<bool> RegisterAsync(string username, string password)
     {
-        if (_users.Any(u => u.UserName == username)) return false;
+        if (username.Length < _constraints.MinUsernameLength || password.Length < _constraints.MinPasswordLength)
+        {
+            return false;
+        }
+
+        if (_users.Any(t => t.UserName == username)) return false;
 
         var newUser = new User(username, password);
         _users.Add(newUser);
@@ -38,7 +45,6 @@ public class AuthManager
         if (user == null) return false;
 
         CurrentUser = user;
-
         return true;
     }
 

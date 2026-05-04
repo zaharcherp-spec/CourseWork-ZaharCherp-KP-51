@@ -1,6 +1,6 @@
 namespace FinanceTracker.Library.Enums;
 
-public enum Currency
+public enum CurrencyTypes
 {
     USD,
     UAH,

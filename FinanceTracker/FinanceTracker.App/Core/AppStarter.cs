@@ -11,21 +11,21 @@ public class AppStarter
     private ICommandProvider Provider;
     private AuthManager AuthManager;
 
-
     public AppStarter()
     {
-        var repository = new JsonRepository<User>("users_data.json");
+        
+        var repository = new JsonRepository<User>("users_data");
 
         AuthManager = new AuthManager(repository);
-
         AuthManager.InitAsync().Wait();
 
-        Provider = new MenuCommandProvider(AuthManager);
+        
+        Provider = new MenuCommandProvider(MenuChanger, AuthManager);
     }
 
-    private void MenuChanger(ICommandProvider NewProvider)
+    private void MenuChanger(ICommandProvider newProvider)
     {
-        Provider = NewProvider;
+        Provider = newProvider;
     }
 
     public void Run()
@@ -34,7 +34,7 @@ public class AppStarter
         {
             try
             {
-                ShowMenu.ShowAndExecute(Provider.GetCommands());
+                ConsoleUI.ShowAndExecute(Provider.GetCommands());
             }
             catch (Exception e)
             {

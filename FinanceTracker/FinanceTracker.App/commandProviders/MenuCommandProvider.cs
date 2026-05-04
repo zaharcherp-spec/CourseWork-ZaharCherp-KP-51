@@ -8,8 +8,6 @@ public class MenuCommandProvider : ICommandProvider
     private readonly Action<ICommandProvider> _changer;
     private readonly AuthManager _authManager;
 
-    public MenuCommandProvider(AuthManager authManager) { }
-
     public MenuCommandProvider(Action<ICommandProvider> changer, AuthManager authManager)
     {
         _changer = changer;
@@ -18,28 +16,27 @@ public class MenuCommandProvider : ICommandProvider
 
     public Dictionary<string, (string, Action)> GetCommands()
     {
-        var Dictionary = new Dictionary<string, (string, Action)>();
+        var dictionary = new Dictionary<string, (string, Action)>
         {
-            Dictionary.Add("1", ("Увійти", LoginFlow));
-            Dictionary.Add("2", ("Зареєструватись", RegisterFlow));
-            Dictionary.Add("0", ("Вийти з застосунку", () => Environment.Exit(0)));
-
-            return Dictionary;
-        }
+            { "1", ("Увійти", LoginFlow) },
+            { "2", ("Зареєструватись", RegisterFlow) },
+            { "0", ("Вийти з застосунку", () => Environment.Exit(0)) }
+        };
+        return dictionary;
     }
 
     private void LoginFlow()
     {
         Console.Write("Введіть логін: ");
-        string username = Console.ReadLine() ?? "";
-        
+        string username = Console.ReadLine() ?? " ";
+
         Console.Write("Введіть пароль: ");
-        string password = Console.ReadLine() ?? "";
+        string password = Console.ReadLine() ?? " ";
 
         if (_authManager.Login(username, password))
         {
-            Console.WriteLine($"Успішний вхід! Вітаємо, {_authManager.CurrentUser.UserName}.");
-
+            Console.WriteLine($"Успішний вхід! Вітаємо, {_authManager.CurrentUser?.UserName}.");
+            
             _changer(new UserCommandProvider(_changer, _authManager));
         }
         else
@@ -51,10 +48,10 @@ public class MenuCommandProvider : ICommandProvider
     private void RegisterFlow()
     {
         Console.Write("Придумайте логін: ");
-        string username = Console.ReadLine() ?? "";
+        string username = Console.ReadLine() ?? " ";
 
         Console.Write("Придумайте пароль: ");
-        string password = Console.ReadLine() ?? "";
+        string password = Console.ReadLine() ?? " ";
 
         bool success = _authManager.RegisterAsync(username, password).Result;
 
@@ -67,9 +64,6 @@ public class MenuCommandProvider : ICommandProvider
             Console.WriteLine("Помилка: Такий користувач вже існує.");
     }
 }
-
-
-
 
 
 

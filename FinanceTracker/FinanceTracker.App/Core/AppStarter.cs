@@ -6,18 +6,20 @@ namespace FinanceTracker.App.Core;
 
 public class AppStarter
 {
-    private ICommandProvider Provider;
-    private AuthManager AuthManager;
+    private ICommandProvider _provider;
+    private readonly AuthManager _authmenager;
+    private readonly Menager _menager;
 
-    public AppStarter(AuthManager authManager)
+    public AppStarter(AuthManager authManager, Menager menager)
     {
-        AuthManager = authManager;
-        Provider = new MenuCommandProvider(MenuChanger, AuthManager);
+        _authmenager = authManager;
+        _menager = menager;
+        _provider = new MenuCommandProvider(MenuChanger, _authmenager, _menager);
     }
 
     private void MenuChanger(ICommandProvider newProvider)
     {
-        Provider = newProvider;
+        _provider = newProvider;
     }
 
     public void Run()
@@ -26,7 +28,7 @@ public class AppStarter
         {
             try
             {
-                ConsoleUI.ShowAndExecute(Provider.GetCommands());
+                ConsoleUI.ShowAndExecute(_provider.GetCommands());
             }
             catch (Exception e)
             {

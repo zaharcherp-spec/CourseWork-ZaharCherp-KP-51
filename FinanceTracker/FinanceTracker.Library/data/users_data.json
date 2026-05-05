@@ -1,8 +1,18 @@
 [
   {
-    "Id": "a94a533d-e5ce-42b4-848f-ddc235e36b06",
+    "Id": "0269288e-5d00-403b-9bb5-47126bbb24fe",
     "UserName": "zahar",
-    "Password": "Apolon11",
+    "Password": "apolon11",
+    "Wallet": {
+      "Balance": 0,
+      "currency": 0
+    },
+    "Transactions": []
+  },
+  {
+    "Id": "c93b005a-dd36-454a-a359-4c4d32cc2743",
+    "UserName": "ivan",
+    "Password": "4567",
     "Wallet": {
       "Balance": 0,
       "currency": 0

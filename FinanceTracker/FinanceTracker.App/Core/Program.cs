@@ -18,9 +18,10 @@ class Program
         var jsonRepository = new JsonRepository<User>(appSettings.FileLoadPath);
 
         AuthManager authManager = new AuthManager(jsonRepository, appSettings.Auth);
+        Menager menager = new Menager(authManager, transferConstrains);
         await authManager.InitAsync();
 
-        AppStarter appStarter = new AppStarter(authManager);
+        AppStarter appStarter = new AppStarter(authManager, menager);
 
         appStarter.Run();
     }

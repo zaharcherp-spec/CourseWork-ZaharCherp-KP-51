@@ -7,11 +7,13 @@ public class MenuCommandProvider : ICommandProvider
 {
     private readonly Action<ICommandProvider> _changer;
     private readonly AuthManager _authManager;
+    private readonly Menager _menager;
 
-    public MenuCommandProvider(Action<ICommandProvider> changer, AuthManager authManager)
+    public MenuCommandProvider(Action<ICommandProvider> changer, AuthManager authManager, Menager menager)
     {
         _changer = changer;
         _authManager = authManager;
+        _menager = menager;
     }
 
     public Dictionary<string, (string, Action)> GetCommands()
@@ -36,8 +38,8 @@ public class MenuCommandProvider : ICommandProvider
         if (_authManager.Login(username, password))
         {
             Console.WriteLine($"Успішний вхід! Вітаємо, {_authManager.CurrentUser?.UserName}.");
-            
-            _changer(new UserCommandProvider(_changer, _authManager));
+
+            _changer(new UserCommandProvider(_changer, _authManager, _menager));
         }
         else
         {

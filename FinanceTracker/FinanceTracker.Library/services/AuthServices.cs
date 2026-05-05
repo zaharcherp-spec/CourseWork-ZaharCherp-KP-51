@@ -32,7 +32,7 @@ public class AuthManager
 
         if (_users.Any(t => t.UserName == username))
         {
-            throw new ArgumentException("Such User already exists");
+            throw new ArgumentException("Такий юзер уже існує");
         }
 
         var newUser = new User(username, password);
@@ -45,6 +45,7 @@ public class AuthManager
     public bool Login(string username, string password)
     {
         var user = _users.FirstOrDefault(u => u.UserName == username && u.Password == password);
+
         if (user == null) return false;
 
         CurrentUser = user;
@@ -55,4 +56,15 @@ public class AuthManager
     {
         CurrentUser = null;
     }
+
+    
+    public async Task SaveChangesAsync()
+    {
+        await _repository.SaveAsync(_users);
+    }
+    public User? GetUserByUsername(string username)
+    {
+        return _users.FirstOrDefault(u => u.UserName == username);
+    }
 }
+

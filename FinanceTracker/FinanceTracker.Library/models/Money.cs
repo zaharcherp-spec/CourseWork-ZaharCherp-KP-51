@@ -10,4 +10,6 @@ public struct Money
     {
         Balance = balance;
     }
+
 }
+    

@@ -7,17 +7,17 @@ public class User
     public string UserName { get; private set; }
     public string Password { get; private set; }
     public Money Wallet { get; private set; }
-    public List<Transaction> Transactions { get; private set; }
+    public List<FinanceOperation> Transactions { get; private set; }
 
   
     [JsonConstructor]
-    public User(Guid id, string userName, string password, Money wallet, List<Transaction> transactions)
+    public User(Guid id, string userName, string password, Money wallet, List<FinanceOperation> transactions)
     {
         Id = id;
         UserName = userName;
         Password = password;
         Wallet = wallet;
-        Transactions = transactions ?? new List<Transaction>();
+        Transactions = transactions ?? new List<FinanceOperation>();
     }
 
    
@@ -27,7 +27,7 @@ public class User
         UserName = userName;
         Password = password;
         Wallet = new Money(0);
-        Transactions = new List<Transaction>();
+        Transactions = new List<FinanceOperation>();
     }
 
     public User() { }

@@ -9,6 +9,7 @@ public class AuthManager
     private readonly JsonRepository<User> _repository;
     private readonly Constrains.AuthConstraints _constraints;
     private List<User> _users = new();
+    public Constrains.AuthConstraints Constraints => _constraints;
 
     public User? CurrentUser { get; private set; }
 
@@ -25,7 +26,10 @@ public class AuthManager
 
     public async Task<bool> RegisterAsync(string username, string password)
     {
-        if (username.Length < _constraints.MinUsernameLength || password.Length < _constraints.MinPasswordLength)
+        if (
+            username.Length < _constraints.MinUsernameLength
+            || password.Length < _constraints.MinPasswordLength
+        )
         {
             return false;
         }
@@ -46,7 +50,8 @@ public class AuthManager
     {
         var user = _users.FirstOrDefault(u => u.UserName == username && u.Password == password);
 
-        if (user == null) return false;
+        if (user == null)
+            return false;
 
         CurrentUser = user;
         return true;
@@ -57,14 +62,13 @@ public class AuthManager
         CurrentUser = null;
     }
 
-    
     public async Task SaveChangesAsync()
     {
         await _repository.SaveAsync(_users);
     }
+
     public User? GetUserByUsername(string username)
     {
         return _users.FirstOrDefault(u => u.UserName == username);
     }
 }
-

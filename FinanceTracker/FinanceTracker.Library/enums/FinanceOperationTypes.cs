@@ -4,12 +4,9 @@ public enum FinanceOperationTypes
 {
     Deposit,
 
-
     Withdrawal,
 
-
     Transfer,
-
 
     Payment,
 }

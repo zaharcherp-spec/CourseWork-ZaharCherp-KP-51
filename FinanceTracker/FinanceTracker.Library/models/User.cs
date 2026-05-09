@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+
 namespace FinanceTracker.Library.Models;
 
 public class User
@@ -9,9 +10,14 @@ public class User
     public Money Wallet { get; private set; }
     public List<FinanceOperation> Transactions { get; private set; }
 
-  
     [JsonConstructor]
-    public User(Guid id, string userName, string password, Money wallet, List<FinanceOperation> transactions)
+    public User(
+        Guid id,
+        string userName,
+        string password,
+        Money wallet,
+        List<FinanceOperation> transactions
+    )
     {
         Id = id;
         UserName = userName;
@@ -20,7 +26,6 @@ public class User
         Transactions = transactions ?? new List<FinanceOperation>();
     }
 
-   
     public User(string userName, string password)
     {
         Id = Guid.NewGuid();
@@ -33,18 +38,6 @@ public class User
     public User() { }
 
     public void UpdateName(string newName) => UserName = newName;
+
     public void ChangePassword(string newPassword) => Password = newPassword;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

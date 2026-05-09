@@ -25,10 +25,3 @@ public static class ConsoleUI
         }
     }
 }
-
-
-
-
-
-
-

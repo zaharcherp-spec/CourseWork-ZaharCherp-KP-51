@@ -1,25 +1,15 @@
-using FinanceTracker.Library.Models;
-using FinanceTracker.Library.Services;
 using FinanceTracker.Library.Settings;
 
-public class Menager
-{
-    private readonly AuthManager AuthManager;
-    private readonly Constrains.TransferConstraints TransferConstrains;
-    public Menager(AuthManager authManager, Constrains.TransferConstraints transferConstraints)
-    {
-        AuthManager = authManager;
-        TransferConstrains = transferConstraints;
+namespace FinanceTracker.Library.Services;
 
-    }
-        
-        public async Task<bool> Deposit()
+public partial class Menager
+{
+    private readonly AuthManager _authManager;
+    private readonly Constrains.TransferConstraints _constraints;
+
+    public Menager(AuthManager authManager, Constrains.TransferConstraints constraints)
     {
-        return true;
+        _authManager = authManager;
+        _constraints = constraints;
     }
 }
-
-
-
-
-

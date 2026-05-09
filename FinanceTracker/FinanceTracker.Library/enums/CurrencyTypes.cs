@@ -4,5 +4,5 @@ public enum CurrencyTypes
 {
     USD,
     UAH,
-    EUR
+    EUR,
 }

@@ -33,8 +33,8 @@ public class JsonRepository<T>
     {
         string? directory = Path.GetDirectoryName(_filePath);
 
-        
-        if (!string.IsNullOrEmpty(directory)) Directory.CreateDirectory(directory);
+        if (!string.IsNullOrEmpty(directory))
+            Directory.CreateDirectory(directory);
 
         string json = JsonSerializer.Serialize(items, _options);
         await File.WriteAllTextAsync(_filePath, json);

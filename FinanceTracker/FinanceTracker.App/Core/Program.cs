@@ -7,10 +7,14 @@ namespace FinanceTracker.App.Core;
 
 class Program
 {
-
     static async Task Main()
     {
-        string fileLoadPath = Path.Combine("..", "FinanceTracker.Library", "Data", "users_data.json");
+        string fileLoadPath = Path.Combine(
+            "..",
+            "FinanceTracker.Library",
+            "Data",
+            "users_data.json"
+        );
         var authConstraints = new Constrains.AuthConstraints();
         var transferConstrains = new Constrains.TransferConstraints();
         var appSettings = new Settings(authConstraints, transferConstrains, fileLoadPath);
@@ -26,20 +30,3 @@ class Program
         await appStarter.RunAsync();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

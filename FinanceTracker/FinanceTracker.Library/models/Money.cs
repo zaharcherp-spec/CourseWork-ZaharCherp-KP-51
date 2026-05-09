@@ -6,10 +6,9 @@ public struct Money
 {
     public decimal Balance { get; private set; }
     public CurrencyTypes currency { get; private set; }
+
     public Money(decimal balance)
     {
         Balance = balance;
     }
-
 }
-    

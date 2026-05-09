@@ -11,7 +11,12 @@ public class FinanceOperation
     public string ReceiverUsername { get; private set; }
     public DateTime DateTime { get; private set; } = DateTime.UtcNow;
 
-    public FinanceOperation(string sender, string receiver, decimal amount, FinanceOperationTypes type)
+    public FinanceOperation(
+        string sender,
+        string receiver,
+        decimal amount,
+        FinanceOperationTypes type
+    )
     {
         SenderUsername = sender;
         ReceiverUsername = receiver;

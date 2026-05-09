@@ -3,34 +3,35 @@ using FinanceTracker.Library.Services;
 
 namespace FinanceTracker.App.CommandProviders;
 
-public class UserCommandProvider : ICommandProvider
+public class UserCommandProvider : BaseCommandProvider
 {
-    private readonly Action<ICommandProvider> _changer;
-    private readonly AuthManager _authmanager;
-    private readonly Menager _menager;
+    public UserCommandProvider(Action<BaseCommandProvider> changer, AuthManager authManager, Menager menager)
+        : base(changer, authManager, menager) { }
 
-    public UserCommandProvider(Action<ICommandProvider> changer, AuthManager manager, Menager menager)
+    public override Dictionary<string, (string Name, Func<Task> Action)> GetCommands()
     {
-        _changer = changer;
-        _authmanager = manager;
-        _menager = menager;
-    }
-
-    public Dictionary<string, (string, Action)> GetCommands()
-    {
-        var dictionary = new Dictionary<string, (string, Action)>
+        return new Dictionary<string, (string Name, Func<Task> Action)>
         {
             { "0", ("В головне меню (вихід з акаунту)", () =>
                 {
-                    _authmanager.Logout();
-                    _changer(new MenuCommandProvider(_changer, _authmanager,_menager));
+                    _authManager.Logout();
+                    _changer(new MenuCommandProvider(_changer, _authManager, _menager));
+                    return Task.CompletedTask;
                 })
-            }
-           {"1",("Депозит"),()=>}
+            },
+
+             { "1", ("В меню фінансових операцій",()=>
+             {
+            _changer(new FinanceCommandProvider(_changer, _authManager, _menager));
+
+            return Task.CompletedTask;
+             })
+             }
         };
-        return dictionary;
     }
 }
+
+
 
 
 

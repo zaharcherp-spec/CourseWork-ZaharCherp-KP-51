@@ -2,7 +2,7 @@ namespace FinanceTracker.App.CommandProviders;
 
 public static class ConsoleUI
 {
-    public static void ShowAndExecute(Dictionary<string, (string Name, Action Action)> actions)
+    public static async Task ShowAndExecute(Dictionary<string, (string Name, Func<Task>)> actions)
     {
         Console.WriteLine("\n---------------------------");
         foreach (var r in actions)
@@ -17,7 +17,7 @@ public static class ConsoleUI
         if (actions.TryGetValue(choice, out var chosen))
         {
             Console.WriteLine();
-            chosen.Action.Invoke();
+            await chosen.Item2.Invoke();
         }
         else
         {

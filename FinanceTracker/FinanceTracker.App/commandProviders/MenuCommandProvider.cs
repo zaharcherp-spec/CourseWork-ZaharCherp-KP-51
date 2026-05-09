@@ -3,31 +3,24 @@ using FinanceTracker.Library.Services;
 
 namespace FinanceTracker.App.CommandProviders;
 
-public class MenuCommandProvider : ICommandProvider
+public class MenuCommandProvider : BaseCommandProvider
 {
-    private readonly Action<ICommandProvider> _changer;
-    private readonly AuthManager _authManager;
-    private readonly Menager _menager;
+    public MenuCommandProvider(Action<BaseCommandProvider> changer, AuthManager authManager, Menager menager)
+        : base(changer, authManager, menager) { }
 
-    public MenuCommandProvider(Action<ICommandProvider> changer, AuthManager authManager, Menager menager)
+    public override Dictionary<string, (string Name, Func<Task> Action)> GetCommands()
     {
-        _changer = changer;
-        _authManager = authManager;
-        _menager = menager;
-    }
-
-    public Dictionary<string, (string, Action)> GetCommands()
-    {
-        var dictionary = new Dictionary<string, (string, Action)>
+        return new Dictionary<string, (string Name, Func<Task> Action)>
         {
+            
             { "1", ("Увійти", LoginFlow) },
             { "2", ("Зареєструватись", RegisterFlow) },
-            { "0", ("Вийти з застосунку", () => Environment.Exit(0)) }
+            { "0", ("Вийти з застосунку", () => { Environment.Exit(0); return Task.CompletedTask; }) }
         };
-        return dictionary;
     }
 
-    private void LoginFlow()
+    
+    private Task LoginFlow()
     {
         Console.Write("Введіть логін: ");
         string username = Console.ReadLine() ?? " ";
@@ -38,16 +31,17 @@ public class MenuCommandProvider : ICommandProvider
         if (_authManager.Login(username, password))
         {
             Console.WriteLine($"Успішний вхід! Вітаємо, {_authManager.CurrentUser?.UserName}.");
-
             _changer(new UserCommandProvider(_changer, _authManager, _menager));
         }
         else
         {
             Console.WriteLine("Помилка: Неправильний логін або пароль.");
         }
+
+        return Task.CompletedTask; 
     }
 
-    private void RegisterFlow()
+    private async Task RegisterFlow()
     {
         Console.Write("Придумайте логін: ");
         string username = Console.ReadLine() ?? " ";
@@ -55,17 +49,16 @@ public class MenuCommandProvider : ICommandProvider
         Console.Write("Придумайте пароль: ");
         string password = Console.ReadLine() ?? " ";
 
-        bool success = _authManager.RegisterAsync(username, password).Result;
+        
+        bool success = await _authManager.RegisterAsync(username, password);
 
         if (success)
-        {
             Console.WriteLine("Реєстрація успішна! Тепер ви можете увійти.");
-        }
-
         else
-            Console.WriteLine("Помилка спробуйте ввести інший пароль , або логін");
+            Console.WriteLine("Помилка: спробуйте ввести інший пароль або логін.");
     }
 }
+    
 
 
 

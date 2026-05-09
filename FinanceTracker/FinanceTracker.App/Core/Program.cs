@@ -23,7 +23,7 @@ class Program
 
         AppStarter appStarter = new AppStarter(authManager, menager);
 
-        appStarter.Run();
+        await appStarter.RunAsync();
     }
 }
 

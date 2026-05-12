@@ -37,7 +37,27 @@ public class User
 
     public User() { }
 
+    public override string ToString()
+    {
+        return $"Name : {UserName}  Wallet :({Wallet})";
+    }
+
     public void UpdateName(string newName) => UserName = newName;
 
     public void ChangePassword(string newPassword) => Password = newPassword;
+
+    public void AddBalance(decimal amount)
+    {
+        Wallet = Wallet.Add(amount);
+    }
+
+    public void SubtractBalance(decimal amount)
+    {
+        Wallet = Wallet.Subtract(amount);
+    }
+
+    public void AddTransaction(FinanceOperation operation)
+    {
+        Transactions.Add(operation);
+    }
 }

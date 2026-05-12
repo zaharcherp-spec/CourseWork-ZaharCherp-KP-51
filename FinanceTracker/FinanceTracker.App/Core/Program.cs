@@ -9,12 +9,20 @@ class Program
 {
     static async Task Main()
     {
-        string fileLoadPath = Path.Combine(
-            "..",
-            "FinanceTracker.Library",
-            "Data",
-            "users_data.json"
-        );
+       string projectRoot = AppContext.BaseDirectory;
+
+while (!Directory.Exists(Path.Combine(projectRoot, "FinanceTracker.Library")) && Directory.GetParent(projectRoot) != null)
+{
+    projectRoot = Directory.GetParent(projectRoot)!.FullName;
+}
+
+
+string fileLoadPath = Path.Combine(
+    projectRoot,
+    "FinanceTracker.Library",
+    "Data",
+    "users_data.json"
+);
         var authConstraints = new Constrains.AuthConstraints();
         var transferConstrains = new Constrains.TransferConstraints();
         var appSettings = new Settings(authConstraints, transferConstrains, fileLoadPath);
@@ -30,3 +38,4 @@ class Program
         await appStarter.RunAsync();
     }
 }
+

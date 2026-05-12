@@ -56,10 +56,10 @@ public class MenuCommandProvider : BaseCommandProvider
     private async Task RegisterFlow()
     {
         Console.Write("Придумайте логін: ");
-        string username = Console.ReadLine() ?? string.Empty;
+        string username = Console.ReadLine().Trim() ?? string.Empty;
 
         Console.Write("Придумайте пароль: ");
-        string password = Console.ReadLine() ?? string.Empty;
+        string password = Console.ReadLine().Trim() ?? string.Empty;
 
         bool success = await _authManager.RegisterAsync(username, password);
 

@@ -23,12 +23,14 @@ public class ProfileCommandProvider : BaseCommandProvider
         };
     }
 
-    private Task ShowProfileInfo()
+    private  Task ShowProfileInfo()
     {
         Console.WriteLine("\n Інформація про ваш профіль ");
-        
-        
-        return Task.CompletedTask;
+
+        string userData = _menager.ShowUserData().Result;
+         Console.WriteLine(userData);
+
+         return Task.CompletedTask;
     }
 
     private async Task ChangePasswordFlow()

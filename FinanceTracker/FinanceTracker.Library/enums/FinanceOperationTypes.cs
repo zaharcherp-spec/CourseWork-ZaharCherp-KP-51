@@ -7,6 +7,6 @@ public enum FinanceOperationTypes
     Withdrawal,
 
     Transfer,
-
-    Payment,
 }
+
+    

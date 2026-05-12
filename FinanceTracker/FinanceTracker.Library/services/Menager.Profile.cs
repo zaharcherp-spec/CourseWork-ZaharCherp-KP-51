@@ -1,3 +1,5 @@
+
+
 namespace FinanceTracker.Library.Services;
 
 public partial class Menager
@@ -16,6 +18,7 @@ public partial class Menager
 
         _authManager.CurrentUser.ChangePassword(newPassword);
         await _authManager.SaveChangesAsync();
+        
         return true;
     }
 
@@ -40,4 +43,13 @@ public partial class Menager
         await _authManager.SaveChangesAsync();
         return true;
     }
+
+    public  Task<string> ShowUserData()
+    {
+     string data =_authManager.CurrentUser.ToString();
+
+     return Task.FromResult(data);
+    }
 }
+       
+

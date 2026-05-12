@@ -5,11 +5,11 @@ namespace FinanceTracker.Library.Models;
 public class FinanceOperation
 {
     public Guid Guid { get; private set; }
-    public FinanceOperationTypes transactionType { get; private set; }
+    public FinanceOperationTypes TransactionType { get; private set; }
     public decimal Amount { get; private set; }
     public string SenderUsername { get; private set; }
     public string ReceiverUsername { get; private set; }
-    public DateTime DateTime { get; private set; } = DateTime.UtcNow;
+    public DateTime DateTime { get; private set; } 
 
     public FinanceOperation(
         string sender,
@@ -18,10 +18,11 @@ public class FinanceOperation
         FinanceOperationTypes type
     )
     {
+        Guid= Guid.NewGuid();
         SenderUsername = sender;
         ReceiverUsername = receiver;
         Amount = amount;
-        transactionType = type;
+        TransactionType = type;
         DateTime = DateTime.Now;
     }
 }

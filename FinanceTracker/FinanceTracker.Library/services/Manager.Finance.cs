@@ -23,17 +23,17 @@ public partial class Manager
         var receiver = _authManager.GetUserByUsername(operation.ReceiverUsername);
 
 
-        if (operation.TransactionType == FinanceOperationTypes.Deposit)
+        if (operation.FinanceOperationType == FinanceOperationTypes.Deposit)
         {
             sender.AddBalance(operation.Amount);
             sender.AddTransaction(operation);
         }
-        else if (operation.TransactionType == FinanceOperationTypes.Withdrawal)
+        else if (operation.FinanceOperationType == FinanceOperationTypes.Withdrawal)
         {
             sender.SubtractBalance(operation.Amount);
             sender.AddTransaction(operation);
         }
-        else if (operation.TransactionType == FinanceOperationTypes.Transfer && receiver != sender)
+        else if (operation.FinanceOperationType == FinanceOperationTypes.Transfer && receiver != sender)
         {
             sender.SubtractBalance(operation.Amount);
             sender.AddTransaction(operation);
@@ -58,8 +58,6 @@ public partial class Manager
 
     public async Task WithdrawAsync(string username, decimal amount, string category)
     {
-
-
         if (amount > _constraints.MaxTransferAmount)
         {
             throw new ArgumentException("Сума переказу не може перевищувати максимальну суму для переказу.");
@@ -74,6 +72,13 @@ public partial class Manager
         if (currentBalance < amount)
         {
             throw new InvalidOperationException("Недостатньо коштів на рахунку для зняття.");
+        }
+        var user = _authManager.GetUserByUsername(username);
+        decimal spentToday = GetDailySpentAmount(user, FinanceOperationTypes.Withdrawal);
+
+        if (spentToday + amount > user.Wallet.DailyWithdrawalLimit)
+        {
+            throw new ArgumentException("Ваш ліміт зняття коштів на сьогодні перевищено.");
         }
         var operation = new FinanceOperation(username, username, amount, FinanceOperationTypes.Withdrawal, category);
         await AddTransactionAsync(operation);
@@ -103,10 +108,22 @@ public partial class Manager
             throw new InvalidOperationException("Недостатньо коштів на рахунку для переказу.");
         }
 
+        var user = _authManager.GetUserByUsername(senderUsername);
+        decimal spentToday = GetDailySpentAmount(user, FinanceOperationTypes.Withdrawal);
+
+        if (spentToday + amount > user.Wallet.DailyTransferLimit)
+        {
+            throw new ArgumentException("Ваш ліміт транзакцій на сьогодні вичерпано.");
+        }
+
         var operation = new FinanceOperation(senderUsername, receiverUsername, amount, FinanceOperationTypes.Transfer, category);
         await AddTransactionAsync(operation);
     }
 }
+
+
+
+
 
 
 

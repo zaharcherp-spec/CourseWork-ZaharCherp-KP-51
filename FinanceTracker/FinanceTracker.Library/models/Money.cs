@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using FinanceTracker.Library.Enums;
 
 namespace FinanceTracker.Library.Models;
@@ -5,8 +6,9 @@ namespace FinanceTracker.Library.Models;
 public struct Money
 {
     public decimal Balance { get; private set; }
-    public CurrencyTypes Currency { get; private set; }
-
+    public CurrencyTypes Currency { get; private set; } = CurrencyTypes.UAH;
+    public decimal DailyWithdrawalLimit { get; set; } = 5000m;
+    public decimal DailyTransferLimit { get; set; } = 10000m;
     public override string ToString()
     {
         return $"Баланс : {Balance} Валюта: {Currency}";
@@ -16,6 +18,8 @@ public struct Money
     {
         Balance = balance;
     }
+
+    [JsonConstructor]
     public Money(decimal balance, CurrencyTypes currency)
     {
         Balance = balance;
@@ -32,3 +36,5 @@ public struct Money
         return new Money(Balance - amount, Currency);
     }
 }
+
+

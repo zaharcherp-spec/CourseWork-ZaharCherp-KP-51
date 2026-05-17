@@ -6,7 +6,7 @@ namespace FinanceTracker.Library.Models;
 public class FinanceOperation
 {
     public string Id { get; private set; }
-    public FinanceOperationTypes TransactionType { get; private set; }
+    public FinanceOperationTypes FinanceOperationType { get; private set; }
     public decimal Amount { get; private set; }
     public string SenderUsername { get; private set; }
     public string ReceiverUsername { get; private set; }
@@ -16,7 +16,7 @@ public class FinanceOperation
     [JsonConstructor]
     public FinanceOperation(
         string id,
-        FinanceOperationTypes transactionType,
+        FinanceOperationTypes financeoperationType,
         decimal amount,
         string senderUsername,
         string receiverUsername,
@@ -25,7 +25,7 @@ public class FinanceOperation
     )
     {
         Id = id;
-        TransactionType = transactionType;
+        FinanceOperationType = financeoperationType;
         Amount = amount;
         SenderUsername = senderUsername;
         ReceiverUsername = receiverUsername;
@@ -45,8 +45,18 @@ public class FinanceOperation
         SenderUsername = sender;
         ReceiverUsername = receiver;
         Amount = amount;
-        TransactionType = type;
+        FinanceOperationType = type;
         Date = DateTime.Now;
         Category = category ?? string.Empty;
+    }
+
+    public override string ToString()
+    {
+        string operationSign = FinanceOperationType == FinanceOperationTypes.Withdrawal ? "-" : "+";
+        string transferInfo = FinanceOperationType == FinanceOperationTypes.Transfer 
+            ? $" | Від: {SenderUsername} -> Кому: {ReceiverUsername}" 
+            : "";
+
+        return $"[{Date:dd.MM.yyyy HH:mm}] {FinanceOperationType,-10} | Категорія: {Category,-10} | Сума: {operationSign}{Amount:N2}{transferInfo}";
     }
 }

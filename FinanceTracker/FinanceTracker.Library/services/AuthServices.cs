@@ -69,7 +69,9 @@ public class AuthManager
         }
 
         if (user == null)
+        {
             return false;
+        }
 
         CurrentUser = user;
         return true;

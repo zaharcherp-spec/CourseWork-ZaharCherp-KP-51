@@ -60,4 +60,12 @@ public class User
     {
         Transactions.Add(operation);
     }
+
+    public void ShowUserData(List<FinanceOperation> transactions)
+    {
+        foreach (var r in transactions)
+        {
+            Console.WriteLine(r);
+        }
+    }
 }

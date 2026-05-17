@@ -14,7 +14,7 @@ public partial class Manager
     private bool UserExists(string username)
     {
         var user = _authManager.GetUserByUsername(username);
-        return true;
+        return user != null;
     }
 
     private async Task AddTransactionAsync(FinanceOperation operation)
@@ -109,7 +109,7 @@ public partial class Manager
         }
 
         var user = _authManager.GetUserByUsername(senderUsername);
-        decimal spentToday = GetDailySpentAmount(user, FinanceOperationTypes.Withdrawal);
+        decimal spentToday = GetDailySpentAmount(user, FinanceOperationTypes.Transfer);
 
         if (spentToday + amount > user.Wallet.DailyTransferLimit)
         {

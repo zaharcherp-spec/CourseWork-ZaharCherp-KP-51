@@ -15,6 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FinanceTracker.App\FinanceTracker.App.csproj" />
+    <ProjectReference Include="..\FinanceTracker.Library\FinanceTracker.Library.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 

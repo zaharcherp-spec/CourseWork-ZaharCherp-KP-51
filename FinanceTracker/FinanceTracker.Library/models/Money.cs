@@ -14,12 +14,12 @@ public struct Money
 
     public Money(decimal balance)
     {
-        Balance =balance;
+        Balance = balance;
     }
-    public Money(decimal balance,CurrencyTypes currency)
+    public Money(decimal balance, CurrencyTypes currency)
     {
         Balance = balance;
-        Currency =currency;
+        Currency = currency;
     }
 
     public Money Add(decimal amount)

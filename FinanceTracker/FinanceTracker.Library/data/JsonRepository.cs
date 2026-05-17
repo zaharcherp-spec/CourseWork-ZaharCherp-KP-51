@@ -23,7 +23,7 @@ public class JsonRepository<T>
             string json = await File.ReadAllTextAsync(_filePath);
             return JsonSerializer.Deserialize<List<T>>(json, _options) ?? new List<T>();
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return new List<T>();
         }

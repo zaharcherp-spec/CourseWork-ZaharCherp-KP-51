@@ -1,4 +1,3 @@
-using FinanceTracker.App.interfaces;
 using FinanceTracker.Library.Services;
 
 namespace FinanceTracker.App.CommandProviders.SubProviders;
@@ -8,9 +7,11 @@ public class ProfileCommandProvider : BaseCommandProvider
     public ProfileCommandProvider(
         Action<BaseCommandProvider> action,
         AuthManager authManager,
-        Menager menager
+        Manager menager
     )
         : base(action, authManager, menager) { }
+
+
 
     public override Dictionary<string, (string Name, Func<Task> Action)> GetCommands()
     {
@@ -23,46 +24,44 @@ public class ProfileCommandProvider : BaseCommandProvider
         };
     }
 
-    private  Task ShowProfileInfo()
+    private Task ShowProfileInfo()
     {
         Console.WriteLine("\n Інформація про ваш профіль ");
 
-        string userData = _menager.ShowUserData().Result;
-         Console.WriteLine(userData);
+        string userData = _manager.ShowUserData().Result;
+        Console.WriteLine(userData);
 
-         return Task.CompletedTask;
+        return Task.CompletedTask;
     }
 
     private async Task ChangePasswordFlow()
     {
         Console.WriteLine("\n Зміна пароля:");
-        Console.Write("Введіть ваш старий пароль: ");
-        string oldPassword = Console.ReadLine() ?? "";
+        Console.Write("Введіть ваш старий пароль:");
+        string oldPassword = Console.ReadLine();
 
         Console.Write("Введіть новий пароль: ");
-        string newPassword = Console.ReadLine() ?? "";
+        string newPassword = Console.ReadLine();
 
-        bool success = await _menager.ChangePasswordAsync(oldPassword, newPassword);
+        bool success = await _manager.ChangePasswordAsync(oldPassword, newPassword);
 
         if (success)
         {
-            Console.WriteLine("Успіх: Ваш пароль було успішно змінено!");
+            Console.WriteLine("Успіх: Ваш пароль було успішно змінено");
         }
         else
         {
             Console.WriteLine(
-                "Помилка: Неправильний старий пароль або новий пароль не відповідає вимогам безпеки."
-            );
+                "Помилка: Неправильний старий пароль або новий пароль не відповідає вимогам безпеки.");
         }
     }
-
     private async Task ChangeUsernameFlow()
     {
         Console.WriteLine("\n Зміна логіна");
         Console.Write("Введіть новий логін: ");
-        string newUsername = Console.ReadLine() ?? "";
+        string newUsername = Console.ReadLine();
 
-        bool success = await _menager.ChangeUsernameAsync(newUsername);
+        bool success = await _manager.ChangeUsernameAsync(newUsername);
 
         if (success)
         {
@@ -71,15 +70,18 @@ public class ProfileCommandProvider : BaseCommandProvider
         else
         {
             Console.WriteLine(
-                "Помилка: Такий логін вже зайнятий іншим користувачем або містить недопустимі символи."
-            );
+                "Помилка: Такий логін вже зайнятий іншим користувачем або містить недопустимі символи.");
+
         }
     }
 
     private Task GoBack()
     {
-        _changer(new UserCommandProvider(_changer, _authManager, _menager));
+        _changer(new UserCommandProvider(_changer, _authManager, _manager));
 
         return Task.CompletedTask;
     }
 }
+
+
+

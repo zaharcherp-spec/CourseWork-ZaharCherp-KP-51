@@ -9,20 +9,20 @@ class Program
 {
     static async Task Main()
     {
-       string projectRoot = AppContext.BaseDirectory;
+        string projectRoot = AppContext.BaseDirectory;
 
-while (!Directory.Exists(Path.Combine(projectRoot, "FinanceTracker.Library")) && Directory.GetParent(projectRoot) != null)
-{
-    projectRoot = Directory.GetParent(projectRoot)!.FullName;
-}
+        while (!Directory.Exists(Path.Combine(projectRoot, "FinanceTracker.Library")) && Directory.GetParent(projectRoot) != null)
+        {
+            projectRoot = Directory.GetParent(projectRoot)!.FullName;
+        }
 
 
-string fileLoadPath = Path.Combine(
-    projectRoot,
-    "FinanceTracker.Library",
-    "Data",
-    "users_data.json"
-);
+        string fileLoadPath = Path.Combine(
+            projectRoot,
+            "FinanceTracker.Library",
+            "Data",
+            "users_data.json"
+        );
         var authConstraints = new Constrains.AuthConstraints();
         var transferConstrains = new Constrains.TransferConstraints();
         var appSettings = new Settings(authConstraints, transferConstrains, fileLoadPath);
@@ -30,10 +30,10 @@ string fileLoadPath = Path.Combine(
         var jsonRepository = new JsonRepository<User>(appSettings.FileLoadPath);
 
         AuthManager authManager = new AuthManager(jsonRepository, appSettings.Auth);
-        Menager menager = new Menager(authManager, transferConstrains);
+        Manager manager = new Manager(authManager, transferConstrains);
         await authManager.InitAsync();
 
-        AppStarter appStarter = new AppStarter(authManager, menager);
+        AppStarter appStarter = new AppStarter(authManager, manager);
 
         await appStarter.RunAsync();
     }

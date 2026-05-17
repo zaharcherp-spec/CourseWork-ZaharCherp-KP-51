@@ -1,5 +1,4 @@
 using FinanceTracker.App.CommandProviders;
-using FinanceTracker.App.interfaces;
 using FinanceTracker.Library.Services;
 
 namespace FinanceTracker.App.Core;
@@ -8,13 +7,13 @@ public class AppStarter
 {
     private BaseCommandProvider _provider;
     private readonly AuthManager _authmanager;
-    private readonly Menager _menager;
+    private readonly Manager _manager;
 
-    public AppStarter(AuthManager authManager, Menager menager)
+    public AppStarter(AuthManager authManager, Manager menager)
     {
         _authmanager = authManager;
-        _menager = menager;
-        _provider = new MenuCommandProvider(MenuChanger, _authmanager, _menager);
+        _manager = menager;
+        _provider = new MenuCommandProvider(MenuChanger, _authmanager, _manager);
     }
 
     private void MenuChanger(BaseCommandProvider newProvider)

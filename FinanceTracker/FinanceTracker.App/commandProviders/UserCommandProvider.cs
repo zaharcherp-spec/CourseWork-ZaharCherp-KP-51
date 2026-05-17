@@ -1,5 +1,4 @@
 using FinanceTracker.App.CommandProviders.SubProviders;
-using FinanceTracker.App.interfaces;
 using FinanceTracker.Library.Services;
 
 namespace FinanceTracker.App.CommandProviders;
@@ -9,7 +8,7 @@ public class UserCommandProvider : BaseCommandProvider
     public UserCommandProvider(
         Action<BaseCommandProvider> changer,
         AuthManager authManager,
-        Menager menager
+        Manager menager
     )
         : base(changer, authManager, menager) { }
 
@@ -26,26 +25,27 @@ public class UserCommandProvider : BaseCommandProvider
 
     private Task GoToFinance()
     {
-        _changer(new FinanceCommandProvider(_changer, _authManager, _menager));
+        _changer(new FinanceCommandProvider(_changer, _authManager, _manager));
         return Task.CompletedTask;
     }
 
     private Task GoToProfile()
     {
-        _changer(new ProfileCommandProvider(_changer, _authManager, _menager));
+        _changer(new ProfileCommandProvider(_changer, _authManager, _manager));
         return Task.CompletedTask;
     }
 
     private Task GoToStatistics()
     {
-        _changer(new StatisticsCommandProvider(_changer, _authManager, _menager));
+        _changer(new StatisticsCommandProvider(_changer, _authManager, _manager));
         return Task.CompletedTask;
     }
 
     private Task Logout()
     {
         _authManager.Logout();
-        _changer(new MenuCommandProvider(_changer, _authManager, _menager));
+        _changer(new MenuCommandProvider(_changer, _authManager, _manager));
         return Task.CompletedTask;
     }
 }
+

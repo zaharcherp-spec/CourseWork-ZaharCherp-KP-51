@@ -1,4 +1,3 @@
-using FinanceTracker.App.interfaces;
 using FinanceTracker.Library.Services;
 
 namespace FinanceTracker.App.CommandProviders;
@@ -8,7 +7,7 @@ public class MenuCommandProvider : BaseCommandProvider
     public MenuCommandProvider(
         Action<BaseCommandProvider> changer,
         AuthManager authManager,
-        Menager menager
+        Manager menager
     )
         : base(changer, authManager, menager) { }
 
@@ -35,15 +34,15 @@ public class MenuCommandProvider : BaseCommandProvider
     private Task LoginFlow()
     {
         Console.Write("Введіть логін: ");
-        string username = Console.ReadLine() ?? string.Empty;
+        string username = Console.ReadLine();
 
         Console.Write("Введіть пароль: ");
-        string password = Console.ReadLine() ?? string.Empty;
+        string password = Console.ReadLine();
 
         if (_authManager.Login(username, password))
         {
             Console.WriteLine($"Успішний вхід! Вітаємо, {_authManager.CurrentUser?.UserName}.");
-            _changer(new UserCommandProvider(_changer, _authManager, _menager));
+            _changer(new UserCommandProvider(_changer, _authManager, _manager));
         }
         else
         {
@@ -56,16 +55,19 @@ public class MenuCommandProvider : BaseCommandProvider
     private async Task RegisterFlow()
     {
         Console.Write("Придумайте логін: ");
-        string username = Console.ReadLine().Trim() ?? string.Empty;
+        string username = Console.ReadLine().Trim();
 
         Console.Write("Придумайте пароль: ");
-        string password = Console.ReadLine().Trim() ?? string.Empty;
+        string password = Console.ReadLine().Trim();
 
         bool success = await _authManager.RegisterAsync(username, password);
 
         if (success)
+        {
             Console.WriteLine("Реєстрація успішна! Тепер ви можете увійти.");
+        }
         else
             Console.WriteLine("Помилка: спробуйте ввести інший пароль або логін.");
     }
 }
+

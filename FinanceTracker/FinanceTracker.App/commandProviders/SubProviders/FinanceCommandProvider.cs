@@ -1,4 +1,3 @@
-using FinanceTracker.App.interfaces;
 using FinanceTracker.Library.Services;
 
 namespace FinanceTracker.App.CommandProviders.SubProviders;
@@ -8,9 +7,9 @@ public class FinanceCommandProvider : BaseCommandProvider
     public FinanceCommandProvider(
         Action<BaseCommandProvider> changer,
         AuthManager authManager,
-        Menager menager
+        Manager manager
     )
-        : base(changer, authManager, menager) { }
+        : base(changer, authManager, manager) { }
 
     public override Dictionary<string, (string Name, Func<Task> Action)> GetCommands()
     {
@@ -25,82 +24,72 @@ public class FinanceCommandProvider : BaseCommandProvider
 
     private async Task DepositFlow()
     {
-        Console.WriteLine("\n--- Поповнення рахунку ---");
-        Console.Write("Введіть суму поповнення: ");
-        
-        if (decimal.TryParse(Console.ReadLine(), out decimal amount))
-        {
-            bool success = await _menager.DepositAsync(amount);
-            if (success)
-            {
-                Console.WriteLine("Успіх: Рахунок поповнено.");
-            }
-            else
-            {
-                Console.WriteLine("Помилка: Неправильна сума.");
-            }
-        }
-        else
-        {
-            Console.WriteLine("Помилка: Введено некоректне число.");
-        }
+        decimal amount = ReadAmount();
+        string category = ReadCategory();
+
+        await _manager.DepositAsync(_authManager.CurrentUser.UserName, amount, category);
+        Console.WriteLine("\nРахунок успішно поповнено.");
     }
 
     private async Task WithdrawFlow()
     {
-        Console.WriteLine("\n--- Зняття коштів ---");
-        Console.Write("Введіть суму для зняття: ");
+        decimal amount = ReadAmount();
+        string category = ReadCategory();
 
-        if (decimal.TryParse(Console.ReadLine(), out decimal amount))
-        {
-            bool success = await _menager.WithdrawAsync(amount);
-            if (success)
-            {
-                Console.WriteLine("Успіх: Кошти знято.");
-            }
-            else
-            {
-                Console.WriteLine("Помилка: Недостатньо коштів або неправильна сума.");
-            }
-        }
-        else
-        {
-            Console.WriteLine("Помилка: Введено некоректне число.");
-        }
+        await _manager.WithdrawAsync(_authManager.CurrentUser.UserName, amount, category);
+        Console.WriteLine("\nКошти успішно знято.");
+
     }
 
     private async Task TransferFlow()
     {
-        Console.WriteLine("\n Переказ коштів");
         Console.Write("Введіть логін отримувача: ");
-        string receiver = Console.ReadLine() ?? string.Empty;
+        string receiverUsername = Console.ReadLine() ?? string.Empty;
 
-        Console.Write("Введіть суму переказу: ");
-        
-        if (decimal.TryParse(Console.ReadLine(), out decimal amount))
+        decimal amount = ReadAmount();
+        string category = ReadCategory();
+
+        await _manager.TransferAsync(_authManager.CurrentUser.UserName, receiverUsername, amount, category);
+        Console.WriteLine("\nПереказ успішно виконано.");
+
+    }
+
+    private decimal ReadAmount()
+    {
+        Console.Write("Введіть суму: ");
+        if (decimal.TryParse(Console.ReadLine(), out decimal amount) && amount > 0)
         {
-            bool success = await _menager.TransferAsync(receiver, amount);
-            if (success)
-            {
-                Console.WriteLine("Успіх: Кошти успішно переказано.");
-            }
-            else
-            {
-                Console.WriteLine("Помилка: Перевірте баланс, суму або правильність логіна отримувача.");
-            }
+            return amount;
         }
-        else
-        {
-            Console.WriteLine("Помилка: Введено некоректне число.");
-        }
+        throw new Exception("Невалідне число для переказу");
+    }
+
+    private string ReadCategory()
+    {
+        Console.Write("Введіть категорію (або натисніть Enter для 'Інше'): ");
+        string category = Console.ReadLine() ?? string.Empty;
+
+        return category ?? "Інше";
     }
 
     private Task GoBack()
     {
-        _changer(new UserCommandProvider(_changer, _authManager, _menager));
-        
+        _changer(new UserCommandProvider(_changer, _authManager, _manager));
         return Task.CompletedTask;
     }
 }
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+

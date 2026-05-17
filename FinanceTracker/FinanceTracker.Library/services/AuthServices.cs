@@ -34,7 +34,17 @@ public class AuthManager
             return false;
         }
 
-        if (_users.Any(t => t.UserName == username))
+        bool userExists = false;
+        foreach (var user in _users)
+        {
+            if (user.UserName == username)
+            {
+                userExists = true;
+                break;
+            }
+        }
+
+        if (userExists)
         {
             throw new ArgumentException("Такий юзер уже існує");
         }
@@ -48,7 +58,15 @@ public class AuthManager
 
     public bool Login(string username, string password)
     {
-        var user = _users.FirstOrDefault(u => u.UserName == username && u.Password == password);
+        User? user = null;
+        foreach (var u in _users)
+        {
+            if (u.UserName == username && u.Password == password)
+            {
+                user = u;
+                break;
+            }
+        }
 
         if (user == null)
             return false;
@@ -69,8 +87,13 @@ public class AuthManager
 
     public User? GetUserByUsername(string username)
     {
-        return _users.FirstOrDefault(u => u.UserName == username);
+        foreach (var u in _users)
+        {
+            if (u.UserName == username)
+            {
+                return u;
+            }
+        }
+        return null;
     }
-
-   
 }

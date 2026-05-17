@@ -9,4 +9,4 @@ public enum FinanceOperationTypes
     Transfer,
 }
 
-    
+

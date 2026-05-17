@@ -1,4 +1,3 @@
-using FinanceTracker.App.interfaces;
 using FinanceTracker.Library.Services;
 
 namespace FinanceTracker.App.CommandProviders.SubProviders;
@@ -8,7 +7,7 @@ public class StatisticsCommandProvider : BaseCommandProvider
     public StatisticsCommandProvider(
         Action<BaseCommandProvider> changer,
         AuthManager authManager,
-        Menager menager
+        Manager menager
     )
         : base(changer, authManager, menager) { }
 
@@ -22,12 +21,13 @@ public class StatisticsCommandProvider : BaseCommandProvider
                     "Назад до меню Юзера",
                     () =>
                     {
-                        _changer(new UserCommandProvider(_changer, _authManager, _menager));
+                        _changer(new UserCommandProvider(_changer, _authManager, _manager));
 
                         return Task.CompletedTask;
-                    }
+                }
                 )
             },
         };
     }
 }
+

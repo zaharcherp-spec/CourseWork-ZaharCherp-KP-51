@@ -31,7 +31,54 @@ public partial class Manager
         }
         return totalSpent;
     }
+
+    public Task<FinancialSummary> GetSummaryAsync(string username, DateTime startDate, DateTime endDate)
+    {
+        var user = _authManager.GetUserByUsername(username);
+        if (user == null)
+        {
+            throw new InvalidOperationException("Користувача не знайдено.");
+        }
+
+        var summary = new FinancialSummary
+        {
+            CurrentBalance = user.Wallet.Balance
+        };
+
+        foreach (var op in user.Transactions)
+        {
+
+            if (op.Date < startDate || op.Date > endDate) continue;
+
+            bool isIncome = op.FinanceOperationType == FinanceOperationTypes.Deposit ||
+                           (op.FinanceOperationType == FinanceOperationTypes.Transfer && op.ReceiverUsername == username);
+
+            bool isExpense = op.FinanceOperationType == FinanceOperationTypes.Withdrawal ||
+                            (op.FinanceOperationType == FinanceOperationTypes.Transfer && op.SenderUsername == username);
+
+            if (isIncome)
+            {
+                summary.TotalIncome += op.Amount;
+            }
+            else if (isExpense)
+            {
+                summary.TotalExpense += op.Amount;
+
+                if (!summary.ExpensesByCategory.ContainsKey(op.Category))
+                {
+                    summary.ExpensesByCategory[op.Category] = 0;
+                }
+
+                summary.ExpensesByCategory[op.Category] += op.Amount;
+            }
+        }
+
+        return Task.FromResult(summary);
+    }
 }
+
+
+
 
 
 
